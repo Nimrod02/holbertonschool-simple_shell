@@ -6,6 +6,13 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stddef.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+char *get_location(char *command);
+void execmd(char **argv);
+void promptloop(int input);
+int main(void);
 
 /**
  * struct builtin - shell's builtin or function
@@ -17,5 +24,6 @@ typedef struct builtin
 	char *s;
 	int (*f)(char **av);
 } builtin;
+
 
 #endif
