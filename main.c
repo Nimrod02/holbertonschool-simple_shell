@@ -17,13 +17,15 @@ void promptloop(int input)
 			write(STDOUT_FILENO, "$ ", 2);
 
 		a = getline(&lineptr, &c, stdin);
+
 		if (a == EOF)
 		{
 			free(lineptr);
 			exit(0);
 		}
 	 	if (strcmp(lineptr, "\n"))
-	 	{
+		{
+			executecmd(lineptr);
 			lineptr = NULL;
 		}
 	}
@@ -32,7 +34,7 @@ void promptloop(int input)
 /**
  * main - main function
  *
- * Return: 0 success, other otherwise
+ * Return: 0 on success
  **/
 int main(void)
 {
@@ -41,3 +43,4 @@ int main(void)
 
 	return (0);
 }
+

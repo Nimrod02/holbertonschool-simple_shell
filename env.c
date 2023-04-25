@@ -1,28 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "main.h"
 
-int main(int argc, char *argv[], char *envp[])
+/**
+ * _env - print the environment
+ * @av: array of argument
+ *
+ * Return: 1 or 2
+*/
+
+int _env(char **av __attribute__((unused)))
 {
-	// Vérifier si l'utilisateur a entré la commande "env"
-	if (argc > 1 && strcmp(argv[1], "env") == 0)
+	int index = 0;
+
+	while (environ[index])
 	{
-		// Parcourir le tableau des variables d'environnement jusqu'à trouver la fin
-		for (int index = 0; envp[index] != NULL; index++)
+		if (write(STDOUT_FILENO, environ[index], strlen(environ[index])) == -1)
 		{
-			// Afficher la variable d'environnement actuelle
-			printf("%s\n", envp[index]);
+			perror("env");
+			return (2);
 		}
-	} else
-	{
-		// Afficher un message d'erreur si la commande n'est pas valide
-		printf("Tape: ./x5-env env\n");
+		write(STDOUT_FILENO, "\n", 1);
+		index++;
 	}
-
-	// Attendre que l'utilisateur appuie sur Entrée pour continuer
-	printf("Press Enter to continue...");
-	getchar();
-
-	// Renvoyer un code de sortie normal
-	return (0);
+	return (1);
 }
