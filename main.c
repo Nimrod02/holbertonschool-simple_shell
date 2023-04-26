@@ -12,6 +12,7 @@ void promptloop(int input)
 	ssize_t a = 0;
 
 	do
+
 	{
 		if (input)
 			write(STDOUT_FILENO, "$ ", 2);
@@ -23,7 +24,7 @@ void promptloop(int input)
 			free(lineptr);
 			exit(0);
 		}
-	 	if (strcmp(lineptr, "\n"))
+		if (strcmp(lineptr, "\n"))
 		{
 			executecmd(lineptr);
 			lineptr = NULL;

@@ -61,6 +61,8 @@ int forkcmd(char *command, char **av)
 /**
  * executecmd - execute a line of command
  * @line: the line of command
+ *
+ * Return: 0 on success, -1 on failure
 */
 int executecmd(char *line)
 {
@@ -89,7 +91,7 @@ int executecmd(char *line)
 				exec_command = get_location(command);
 
 				success = forkcmd(exec_command, av);
-				
+
 				free(exec_command);
 			}
 		}

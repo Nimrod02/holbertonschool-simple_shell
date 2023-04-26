@@ -16,7 +16,7 @@ void freearray(char **array)
 }
 
 /**
- * _exit - exit the shell
+ * fexit - exit the shell
  * @av: array of arguments
  *
  * Return: 2

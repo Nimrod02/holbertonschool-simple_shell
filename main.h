@@ -12,11 +12,10 @@
 
 extern char **environ;
 
-
 /**
  * struct builtin - shell's builtin or function handmade
- * @s: name of builtin or function
- * @f: what the builtin or function does
+ * @cmd: name of builtin or function
+ * @func: what the builtin or function does
 */
 typedef struct builtin
 {
