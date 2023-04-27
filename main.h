@@ -23,14 +23,18 @@ typedef struct builtin
 	int (*func)(char **av);
 } builtin;
 
-char *get_location(char *command);
 void promptloop(int input);
 int main(void);
 void freearray(char **array);
-int fexit(char **av);
-int executecmd(char *line);
+int exit_(char **av);
+void executecmd(char *line);
 void *nrealloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **split(const char *str, const char del);
 int _env(char **av __attribute__((unused)));
+int path_(char *path);
+char *makepath_(char *path, char *file);
+int make_fork(char **av);
+void showerror(char *name, char *error);
+char *pathmatch(char **executable);
 
 #endif

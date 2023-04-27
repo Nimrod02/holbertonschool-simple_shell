@@ -11,8 +11,7 @@ void promptloop(int input)
 	size_t c = 0;
 	ssize_t a = 0;
 
-	do
-
+	while (1)
 	{
 		if (input)
 			write(STDOUT_FILENO, "$ ", 2);
@@ -29,7 +28,7 @@ void promptloop(int input)
 			executecmd(lineptr);
 			lineptr = NULL;
 		}
-	} while (1);
+	}
 }
 
 /**

@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * executefunction - execute
+ * executefunction - give the function for a string
  * @av: the array of argument from command line
  *
  * Return: the function or 0
@@ -9,7 +9,7 @@
 int executefunction(char **av)
 {
 	builtin builtins[] = {
-		{"exit", fexit},
+		{"exit", exit_},
 		{"env", _env},
 		{NULL, NULL}
 	};
@@ -25,38 +25,6 @@ int executefunction(char **av)
 	return (0);
 }
 
-/**
- * forkcmd - fork the execute command in a child process using execve
- * @command: the command to execute
- * @av: an array of arguments for the command
- *
- * Return: 0 on success, -1 on failure
- */
-int forkcmd(char *command, char **av)
-{
-	pid_t pid = fork();
-	int status;
-
-	if (pid == 0)
-	{
-		if (execve(command, av, NULL) == -1)
-		{
-		perror("error");
-		exit(EXIT_FAILURE);
-		}
-	}
-	else if (pid > 0)
-	{
-		wait(&status);
-	}
-	else
-	{
-		perror("error");
-		return (-1);
-	}
-
-	return (0);
-}
 
 /**
  * executecmd - execute a line of command
@@ -64,14 +32,15 @@ int forkcmd(char *command, char **av)
  *
  * Return: 0 on success, -1 on failure
 */
-int executecmd(char *line)
+void executecmd(char *line)
 {
 	char **av, **lines;
-	int index = 0, success = 0;
-	char *command = NULL, *exec_command = NULL;
+	char *a;
+	int index = 0;
+
 
 	line[strlen(line) - 1] = '\0';
-	lines = split(line, ';');
+	lines = split(line, ';'); /* Handle the ';' separator */
 	free(line);
 
 	while (lines[index])
@@ -86,15 +55,63 @@ int executecmd(char *line)
 
 			if (!executefunction(av))
 			{
-				command = av[0];
+				a = strdup(av[0]);
 
-				exec_command = get_location(command);
+				if (path_(av[0]) || pathmatch(&av[0]))
+					make_fork(av);
 
-				success = forkcmd(exec_command, av);
+				else
+					showerror(av[0], "not found\n");
 
-				free(exec_command);
+				free(a);
 			}
+		freearray(av);
 		}
 	}
-	return (success);
+	freearray(lines);
+}
+
+/**
+ * make_fork - for and run prog with parameters
+ * @av: array containing the program and it's parameters
+ *
+ * Return: value of child proccess
+*/
+
+int make_fork(char **av)
+{
+	pid_t my_pid, child;
+	int wstatus;
+
+	child = fork();
+
+	if (child == -1)
+		perror("hsh");
+
+	if (child == 0)
+	{
+		my_pid = execve(av[0], av, environ);
+
+		if (my_pid == -1)
+			exit(1);
+
+	}
+	else
+		wait(&wstatus);
+
+	return (WEXITSTATUS(wstatus));
+
+}
+
+/**
+ * showerror - print a personalized error message
+ * @name: name of the thing producing an error
+ * @error: error text to print
+*/
+void showerror(char *name, char *error)
+{
+	write(STDOUT_FILENO, "hsh: ", 5);
+	write(STDOUT_FILENO, name, strlen(name));
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, error, strlen(error));
 }
