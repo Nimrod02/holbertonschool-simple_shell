@@ -96,7 +96,7 @@ Left Arrows ^[[D
 
 
 ## Programs Files
-### [env.c](https://github.com/xdJidx/holbertonschool-printf/blob/main/_printf.c)
+### [env.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/env.c)
 - Function that print the current environment.
 <details>
 <summary>File</summary>
@@ -132,7 +132,7 @@ int _env(char **av __attribute__((unused)))
 
 --------------------
 
-### [execmd.c](https://github.com/xdJidx/holbertonschool-printf/blob/main/_putchar.c)
+### [execmd.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/execmd.c)
 - Contains 3 Functions
 	- `executefunction` : Execute the builtin function.
 	- `forkcmd` : Function that lets the infinite loop (parent) continue while the command execution runs (child).
@@ -244,7 +244,7 @@ int executecmd(char *line)
 
 --------------------
 
-### [exit.c](https://github.com/xdJidx/holbertonschool-printf/blob/main/_vsprintf.c)
+### [exit.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/exit.c)
 - Contain 2 Functions
 	- `freearray` : Function that frees a double pointer.
 	- `fexit` : Function that exits the program (simple shell) with a precise status.
@@ -300,65 +300,108 @@ int fexit(char **av)
 
 --------------------
 
-### [get_location.c](https://github.com/xdJidx/holbertonschool-printf/blob/main/main.h)
+### [path.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/path.c)
 - Function that goes through all the paths of the environment to find the corresponding command.
 <details>
 <summary>File</summary>
 
 ```c
 #include "main.h"
+
 /**
- * get_location - find location of the command in a PATH
- * @command: given command from the input
+ * path_ - find a path
+ * @path: the path to find
  *
- * Return: the command to be execute
+ * Return: 1 (relative) or 0 (absolute)
 */
-char *get_location(char *command)
+
+int path_(char *path)
 {
-	char *path, *path_copy, *path_token, *file_path;
-	int command_length, directory_length;
-	struct stat buffer;
+	if (strlen(path) > 3)
+	{
+		if ((path[0] == '.' && path[1] == '/') || path[0] == '/' ||
+			(path[0] == '.' && path[1] == '.' && path[2] == '/'))
+			return (1);
+	}
+	return (0);
+}
+
+/**
+ * pathmatch - fide a directory in path
+ * @executable: executable name
+ *
+ * Return: path of executable or NULL if not found
+*/
+
+char *pathmatch(char **executable)
+{
+	char **array;
+	char *tmp, *path;
+	int index = 0;
+	struct stat st;
 
 	path = getenv("PATH");
-	if (path)
-	{
-		path_copy = strdup(path);
-		command_length = strlen(command);
-		path_token = strtok(path_copy, ":");
-		while (path_token != NULL)
-		{
-			directory_length = strlen(path_token);
-			file_path = malloc(command_length + directory_length + 2);
-			strcpy(file_path, path_token);
-			strcat(file_path, "/");
-			strcat(file_path, command);
-			strcat(file_path, "\0");
-			if (stat(file_path, &buffer) == 0)
-			{
-				free(path_copy);
-				return (file_path);
-			}
-			else
-			{
-				free(file_path);
-				path_token = strtok(NULL, ":");
-			}
-		}
-		free(path_copy);
-		if (stat(command, &buffer) == 0)
-		{
-			return (command);
-		}
+
+	if (strlen(path) == 0)
 		return (NULL);
+
+	array = split(path, ':');
+
+	if (!array)
+		return (NULL);
+
+	while (array[index] != NULL)
+	{
+		tmp = makepath_(array[index], *executable);
+
+		if (stat(tmp, &st) == 0)
+		{
+			free(*executable);
+			*executable = tmp;
+			freearray(array);
+			return (tmp);
+		}
+		free(tmp);
+		index++;
 	}
+	freearray(array);
 	return (NULL);
+}
+
+/**
+ * makepath_ - make a path to a file
+ * @path: path to the directory
+ * @file: the file
+ *
+ * Return: the new path
+*/
+
+char *makepath_(char *path, char *file)
+{
+	char *npath;
+
+	if (file == NULL || path == NULL)
+		return (NULL);
+
+	npath = malloc(sizeof(char) *
+		(strlen(path) + strlen(file) + 2));
+
+	if (!npath)
+		return (NULL);
+
+	strcpy(npath, path);
+	npath[strlen(path)] = '/';
+	npath[strlen(path) + 1] = '\0';
+	strcat(npath, file);
+
+	return (npath);
 }
 ```
 </details>
 
 --------------------
 
-### [main.c](https://github.com/xdJidx/holbertonschool-printf/blob/main/string_spe.c)
+### [main.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/main.c)
 - Main Function that displays and takes intputs.
 <details>
 <summary>File</summary>
@@ -413,7 +456,7 @@ int main(void)
 
 --------------------
 
-### [main.h](https://github.com/xdJidx/holbertonschool-printf/blob/main/string_spe.c)
+### [main.h](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/main.h)
 - Our header file that contains all the library, prototype and structure use in this project.
 <details>
 <summary>File</summary>
@@ -461,7 +504,7 @@ int _env(char **av __attribute__((unused)));
 
 --------------------
 
-### [split.c](https://github.com/xdJidx/holbertonschool-printf/blob/main/string_spe.c)
+### [split_str.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/split_str.c)
 - Contain 2 Functions
 	- `split` : split a string into tokens using a delimeter
 	- `nrealloc` : function that reallocates a new size of memory to the pointer who needs it
@@ -557,6 +600,60 @@ void *nrealloc(void *ptr, unsigned int old_size, unsigned int new_size)
 
 ------------------------------
 
+### [main.c](https://github.com/Nimrod02/holbertonschool-simple_shell/blob/main/main.c)
+- Main Function that displays and takes intputs.
+<details>
+<summary>File</summary>
+
+```c
+#include "main.h"
+
+/**
+ * promptloop - loop for the prompt
+ * @input: isatty(STDIN_FILENO)
+*/
+
+void promptloop(int input)
+{
+	char *lineptr = NULL;
+	size_t c = 0;
+	ssize_t a = 0;
+
+	do
+	{
+		if (input)
+			write(STDOUT_FILENO, "$ ", 2);
+
+		a = getline(&lineptr, &c, stdin);
+
+		if (a == EOF)
+		{
+			free(lineptr);
+			exit(0);
+		}
+	 	if (strcmp(lineptr, "\n"))
+		{
+			executecmd(lineptr);
+			lineptr = NULL;
+		}
+	} while (1);
+}
+
+/**
+ * main - main function
+ *
+ * Return: 0 on success
+ **/
+int main(void)
+{
+	promptloop(isatty(STDIN_FILENO));
+
+	return (0);
+}
+```
+</details>
+
+--------------------
 # Author
 ROGERET Kevin : **[Air-KS](https://github.com/Air-KS).** <br>
 > Project carried out within the framework of the school **[Holberton School](https://www.holbertonschool.com/).**<br>
