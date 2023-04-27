@@ -16,26 +16,26 @@ void freearray(char **array)
 }
 
 /**
- * fexit - exit the shell
- * @av: array of arguments
+ * exit_ - exit the shell
+ * @array: array of arguments
  *
  * Return: 2
 */
 
-int fexit(char **av)
+int exit_(char **array)
 {
 	int status;
 	/*if no status just exit*/
-	if (av[1] == NULL)
+	if (array[1] == NULL)
 	{
-		freearray(av);
+		freearray(array);
 		exit(0);
 	}
 	/*if status present convert str into int*/
 	else
 	{
-		status = atoi(av[1]);
-		freearray(av);
+		status = atoi(array[1]);
+		freearray(array);
 		exit(status);
 	}
 
