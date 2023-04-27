@@ -1,0 +1,46 @@
+.TH HSH 1 "Version 1.0" "General Commands Manual"
+
+.SH NAME
+     simple_shell -- a simple command interpreter
+
+ .SH SYNOPSIS
+     ./hsh [command_string] [options]
+
+.SH DESCRIPTION
+     The simple_shell is a command line shell that allows the user to enter commands to execute. The simple_shell uses a syntax similar to the original shell, making it easy for users familiar with the original shell to transition to the simple_shell.
+
+     The simple_shell supports built-in commands, such as cd, echo, and exit, as well as external commands. Syntax and execution errors are reported to the user, and detailed error messages are displayed to help the user diagnose issues.
+
+     The simple_shell can be used to automate tasks, such as running scripts and manipulating files. It can also be used to manage system processes and services.
+
+.SH OPTIONS
+     No options are currently supported.
+
+.SH BUILT-IN COMMANDS
+
+	ls                list about FILEs and directories (in the current directory by default).
+
+	cd [directory]    Changes the current directory to "directory". If "directory" is not specified, changes the current directory to the default directory.
+
+	echo [string]     Displays "string" on the standard output.
+
+	exit [code]       Terminates the simple_shell with the exit status "code". If "code" is not specified, the default exit status is 0.
+
+	pwd               Displays the current directory.
+
+	env               Displays the current environment variables.
+
+.SH EXTERNAL COMMANDS
+     The simple_shell supports running external commands using either the absolute or relative path. Execution errors are reported to the user.
+
+.SH ERRORS
+     Syntax and execution errors are reported to the user, and detailed error messages are displayed to help the user diagnose issues.
+
+.SH SEE ALSO
+     bash(1), zsh(1)
+
+.SH AUTHORS
+     The simple_shell was developed by Paul-Henri LEROUX, Kevin ROGERET and Arthur LETRUN.
+
+.SH HISTORY
+     The simple_shell is an ongoing development project, with an initial release in 27/04/2023.
