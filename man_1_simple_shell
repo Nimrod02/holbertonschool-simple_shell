@@ -1,46 +1,161 @@
-.TH HSH 1 "Version 1.0" "General Commands Manual"
+.TH Simple Shell 1 "28 April 2023" "version 1.0" "simple_shell man page"
 
 .SH NAME
-     simple_shell -- a simple command interpreter
+.B hsh
+- A simple command interpreter (simple_shell)
 
- .SH SYNOPSIS
-     ./hsh [command_string] [options]
+.SH SYNOPSIS
+.B ./hsh [options] [command_string | file]
 
 .SH DESCRIPTION
-     The simple_shell is a command line shell that allows the user to enter commands to execute. The simple_shell uses a syntax similar to the original shell, making it easy for users familiar with the original shell to transition to the simple_shell.
+.LP
+.B hsh
+is an sh-compatible command language interpreter that reads and executes commands
+from the standard input or from a file. It is conformed with the POSIX 1003.2 and 
+1003.2a specifications for the shell. This shell is based on the original UNIX shell. 
+It was developed with Ubuntu 14.04 LTS and compiled with GCC 5.4.1. This man page
+isn´t tutorial of the Shell, is a document is a document that supports the user 
+on some shell features.
+.LP
 
-     The simple_shell supports built-in commands, such as cd, echo, and exit, as well as external commands. Syntax and execution errors are reported to the user, and detailed error messages are displayed to help the user diagnose issues.
+.SH OVERVIEW
+The shell is a command that reads lines for either a file or the terminal,
+interprets them, and generally executes other commands.
 
-     The simple_shell can be used to automate tasks, such as running scripts and manipulating files. It can also be used to manage system processes and services.
+.SS Invocation
+.B hsh
+is invoked by the command:
+.br
+$./hsh
+.LP
+A prompt will appear for the user to enter and execute commands by typing 
+command names and pressing the return key. A user can also pipe commands into 
+the program via the pipe character '|'. For example:
+.br
+\&$ echo "hello world" | ./hsh
 
-.SH OPTIONS
-     No options are currently supported.
+.SH INSTALLATION
+.I To install:
+.br
 
-.SH BUILT-IN COMMANDS
+.B git clone https://github.com/Nimrod02/holbertonschool-simple_shell.git
+.br
 
-	ls                list about FILEs and directories (in the current directory by default).
+.I Compile files using:
+.br
 
-	cd [directory]    Changes the current directory to "directory". If "directory" is not specified, changes the current directory to the default directory.
+.B gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+.br
+.br
 
-	echo [string]     Displays "string" on the standard output.
+A prompt will appear for the user to enter and execute commands by typing 
+command names and pressing the return key. A user can also pipe commands 
+into the program via the pipe character '|'. For example:
+$ echo "hello world" | ./hsh
 
-	exit [code]       Terminates the simple_shell with the exit status "code". If "code" is not specified, the default exit status is 0.
+.SH BUILT-INS
+.PP
+exit - Function that exits the Simple Shell.
+.PP
+_env - Prints the global environment variable.
 
-	pwd               Displays the current directory.
+.SH LIST OF USEFUL COMMANDS
+.PP
+cat - Allowing to concatenate files as well as to display their contents on the standard output.
+.PP
+less	- Allowing to view a text file.
+.PP
+touch - Create a new File.
+.PP
+mkdir - Create a new Directory.
+.PP
+ls - The ls command displays the contents of the current Directory.
+.PP
+cp - Allowing to copy Files and Directories.
+.PP
+mv - Allows to move a File, Directory or any tree on Linux.
+.PP
+pwd - Allows to display the path of the current directory.
+.PP
+grep - Allows you to search for a file or a set of files based on an expression contained in the file or files.
 
-	env               Displays the current environment variables.
-
-.SH EXTERNAL COMMANDS
-     The simple_shell supports running external commands using either the absolute or relative path. Execution errors are reported to the user.
-
-.SH ERRORS
-     Syntax and execution errors are reported to the user, and detailed error messages are displayed to help the user diagnose issues.
+.SH EXAMPLES
+.PP
+1. List files in alphabetical order:
+.PP
+$ ./hsh
+.br
+$ ls -l
+.br
+total 196
+.br
+-rw-rw-r-- 1 vagrant vagrant    233 Apr 17 04:09 AUTHORS
+.br
+-rwxrwxrwx 1 vagrant vagrant    365 Apr 14 01:03 authors.sh
+.br
+-rw-rw-r-- 1 vagrant vagrant   2546 Apr 17 05:03 builtin.c
+.br
+-rwxrwxr-x 1 vagrant vagrant   8574 Apr 16 20:16 env
+.br
+-rw-rw-r-- 1 vagrant vagrant   1306 Apr 16 20:16 errormessages.c
+.br
+-rw-rw-r-- 1 vagrant vagrant    501 Apr 17 04:25 execute.c
+.br
+-rw-rw-r-- 1 vagrant vagrant    559 Apr 16 19:46 freeall.c
+.br
+-rw-rw-r-- 1 vagrant vagrant    409 Apr 13 20:58 getenv.c
+.br
+-rwxrwxr-x 1 vagrant vagrant 111499 Apr 17 05:07 hsh
+.br
+-rw-rw-r-- 1 vagrant vagrant    972 Apr 17 04:14 hsh.c
+.br
+-rw-rw-r-- 1 vagrant vagrant   3084 Apr 17 05:49 man_1_simple_shell
+.br
+-rw-rw-r-- 1 vagrant vagrant    824 Apr 13 21:00 pathappend.c
+.br
+-rw-rw-r-- 1 vagrant vagrant   3679 Apr 17 04:25 README.md
+.br
+-rw-rw-r-- 1 vagrant vagrant   1264 Apr 13 20:06 searchinit.c
+.br
+-rw-rw-r-- 1 vagrant vagrant    961 Apr 13 20:07 searchpathfile.c
+.br
+-rw-rw-r-- 1 vagrant vagrant   1271 Apr 16 20:16 simple_shell.h
+.br
+-rw-rw-r-- 1 vagrant vagrant   1300 Apr 17 03:57 splitarguments.c
+.br
+-rw-rw-r-- 1 vagrant vagrant   2160 Apr 13 22:43 str_handlers.c
+.br
+-rw------- 1 vagrant vagrant   5098 Apr 17 05:08 valgrind-out.txt
+.SS
+.SS --------------
+.SS
+.SS
+2. print the current working directory and set a new line that waits for the next command:
+.PP
+$ ./hsh
+.br
+$ pwd
+/home/codespace/holbertonschool-simple_shell
+$
 
 .SH SEE ALSO
-     bash(1), zsh(1)
-
-.SH AUTHORS
-     The simple_shell was developed by Paul-Henri LEROUX, Kevin ROGERET and Arthur LETRUN.
+bash(1)
 
 .SH HISTORY
-     The simple_shell is an ongoing development project, with an initial release in 27/04/2023.
+.B hsh
+is based on the Thompson Shell program written by Ken Thompson.
+
+.SH BUGS
+No known bugs. If any further bugs are found 
+please contact the authors.
+
+.SH AUTHORS
+.SS "Paul-Henri LEROUX"
+.UR https://github.com/Spark4545
+Github
+.UE
+
+.SS "Arthur LETRUN."
+.UR https://github.com/Nimrod02
+Github
+.UE
